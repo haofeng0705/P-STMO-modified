@@ -32,7 +32,7 @@ class opts():
         self.parser.add_argument('--lr_refine', type=float, default=1e-5)
         self.parser.add_argument('--lr_decay_large', type=float, default=0.5)
         self.parser.add_argument('--large_decay_epoch', type=int, default=80)
-        self.parser.add_argument('--workers', type=int, default=8)
+        self.parser.add_argument('--workers', type=int, default=24)
         self.parser.add_argument('-lrd', '--lr_decay', default=0.95, type=float)
         self.parser.add_argument('-f','--frames', type=int, default=243)
         self.parser.add_argument('--pad', type=int, default=121)
@@ -83,10 +83,10 @@ class opts():
             print('no stride_num')
             exit()
 
-        # self.opt.subjects_train = 'S1,S5,S6,S7,S8'
-        self.opt.subjects_train = 'S1'
-        # self.opt.subjects_test = 'S9,S11'
-        #self.opt.subjects_test = 'S11'
+        self.opt.subjects_train = 'S1,S5,S6,S7,S8'
+        # self.opt.subjects_train = 'S1'
+        self.opt.subjects_test = 'S9,S11'
+        # self.opt.subjects_test = 'S11'
 
         #if self.opt.train:
         logtime = time.strftime('%m%d_%H%M_%S_')
@@ -98,7 +98,9 @@ class opts():
             ckp_suffix = '_pretrain'
         else:
             ckp_suffix = '_STMO'
-        self.opt.checkpoint = 'checkpoint/'+self.opt.checkpoint + '_%d'%(self.opt.pad*2+1) + \
+        
+        # 便于区分
+        self.opt.checkpoint = 'checkpoint/'+self.opt.checkpoint + logtime + '_%d'%(self.opt.pad*2+1) + \
             '%s'%ckp_suffix
 
         if not os.path.exists(self.opt.checkpoint):

@@ -21,7 +21,9 @@ from thop import clever_format
 from thop.profile import profile
 
 opt = opts().parse()
-os.environ["CUDA_VISIBLE_DEVICES"] = opt.gpu
+os.environ['PYOPENGL_PLATFORM'] = 'egl'
+#os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ["CUDA_VISIBLE_DEVICES"] = "1" 
 
 def train(opt, actions, train_loader, model, optimizer, epoch):
     return step('train', opt, actions, train_loader, model, optimizer, epoch)
@@ -60,10 +62,10 @@ def step(split, opt, actions, dataLoader, model, optimizer=None, epoch=None):
             batch_cam, input_2D, action, subject, scale, bb_box, cam_ind = data
             [input_2D, batch_cam, scale, bb_box] = get_varialbe(split,[input_2D, batch_cam, scale, bb_box])
 
-            N = input_2D.size(0)
+            N = input_2D.size(0) # torch.Size([bs, 243, 17, 2])
             f = opt.frames
 
-            mask_num = int(f*opt.temporal_mask_rate)
+            mask_num = int(f*opt.temporal_mask_rate) # 1为 mask, 0 为不 mask
             mask = np.hstack([
                 np.zeros(f - mask_num),
                 np.ones(mask_num),
@@ -85,7 +87,7 @@ def step(split, opt, actions, dataLoader, model, optimizer=None, epoch=None):
 
             else:
                 input_2D = input_2D.view(N, -1, opt.n_joints, opt.in_channels, 1).permute(0, 3, 1, 2, 4).type(
-                    torch.cuda.FloatTensor)
+                    torch.cuda.FloatTensor) # 243, 17, 2 -> 2, 243, 17, 1
                 output_2D = model_MAE(input_2D, mask, spatial_mask)
 
 

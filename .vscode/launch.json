@@ -1,0 +1,98 @@
+// {
+//   // Use IntelliSense to learn about possible attributes.
+//   // Hover to view descriptions of existing attributes.
+//   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "name": "Python: Current File",
+//       "type": "python",
+//       "request": "launch",
+//       "program": "${file}",
+//       "console": "integratedTerminal",
+//       "justMyCode": true,
+//       "args": [
+//         "-f",
+//         "243",
+//         "-tds",
+//         "2",
+//         "--reload",
+//         "1",
+//         "--layers",
+//         "4",
+//         "--previous_dir",
+//         "checkpoint/PSTMO_no_refine_11_4288_h36m_cpn.pth"
+//       ]
+//     }
+//   ]
+// }
+///refine
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        // "-f",
+        // "243",
+        // "-tds",
+        // "2",
+        // "--reload",
+        // "1",
+        // "--refine_reload",
+        // "1",
+        // "--refine",
+        // "--layers",
+        // "4",
+        // "--previous_dir",
+        // "/home/su_jia/hf_exp/P-STMO/checkpoint/PSTMO_no_refine_6_4215_h36m_cpn.pth",
+        // "--previous_refine_name",
+        // "/home/su_jia/hf_exp/P-STMO/checkpoint/PSTMO_refine_6_4215_h36m_cpn.pth"
+        // for pretraining stage
+        // "--MAE",
+        // "--train",
+        // "1",
+        // "--layers",
+        // "3",
+        // "-tds",
+        // "2",
+        // "-tmr",
+        // "0.8",
+        // "-smn",
+        // "2",
+        // "--lr",
+        // "0.0001",
+        // "-lrd",
+        // "0.97"
+
+        // for training stage 2
+        "-f",
+        "243",
+        "-b",
+        "160",
+        "--train",
+        "1",
+        "--layers",
+        "3",
+        "-tds",
+        "2",
+        "--lr",
+        "0.0007",
+        "-lrd",
+        "0.97",
+        "--MAE_reload",
+        "1",
+        "--previous_dir",
+        "/home8T/sujia/hf_data/pstmo/checkpoint/pretrain_30_1536.pth"
+      ]
+    }
+  ]
+}
