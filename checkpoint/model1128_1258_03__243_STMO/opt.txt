@@ -1,0 +1,52 @@
+==> Args:
+  MAE: False
+  MAE_reload: 1
+  actions: *
+  batchSize: 160
+  channel: 256
+  checkpoint: checkpoint/model1128_1258_03__243_STMO
+  crop_uv: 0
+  d_hid: 512
+  data_augmentation: True
+  dataset: h36m
+  downsample: 1
+  frames: 243
+  gpu: 0
+  in_channels: 2
+  keypoints: cpn_ft_h36m_dbb
+  large_decay_epoch: 80
+  layers: 3
+  lr: 0.0007
+  lr_decay: 0.97
+  lr_decay_large: 0.5
+  lr_refine: 1e-05
+  manualSeed: 1
+  n_joints: 17
+  nepoch: 80
+  out_all: 1
+  out_channels: 3
+  out_joints: 17
+  pad: 121
+  previous_best_threshold: inf
+  previous_dir: /home8T/sujia/hf_data/pstmo/checkpoint/pretrain_30_1536.pth
+  previous_name: 
+  previous_refine_name: 
+  refine: False
+  refine_reload: 0
+  reload: 0
+  resume: False
+  reverse_augmentation: False
+  root_path: /home/su_jia/hf_exp/DATA/human3.6/
+  spatial_mask_num: 0
+  stride: 1
+  stride_num: [3, 3, 3, 3, 3]
+  subjects_test: S9,S11
+  subjects_train: S1,S5,S6,S7,S8
+  subset: 1
+  t_downsample: 2
+  temporal_mask_rate: 0
+  test: 1
+  test_augmentation: True
+  train: 1
+  workers: 24
+==> Args:

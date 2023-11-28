@@ -93,31 +93,31 @@ class Model(nn.Module):
             nn.Conv1d(channel, 3*self.num_joints_out, kernel_size=1)
         )
 
-    def forward(self, x):
-        x = x[:, :, :, :, 0].permute(0, 2, 3, 1).contiguous() 
+    def forward(self, x): # torch.Size([160, 2, 243, 17, 1])
+        x = x[:, :, :, :, 0].permute(0, 2, 3, 1).contiguous() # torch.Size([160, 243, 17, 2])
         x_shape = x.shape
 
-        x = x.view(x.shape[0], x.shape[1], -1) 
-        x = x.permute(0, 2, 1).contiguous() 
+        x = x.view(x.shape[0], x.shape[1], -1) # torch.Size([160, 243, 34])
+        x = x.permute(0, 2, 1).contiguous() # torch.Size([160, 34, 243]) 交换 23 维度
 
-        x = self.encoder(x) 
+        x = self.encoder(x) # 空间依赖 torch.Size([160, 256, 243]) 操作 34->256
 
-        x = x.permute(0, 2, 1).contiguous()
-        x = self.Transformer(x) 
+        x = x.permute(0, 2, 1).contiguous() # torch.Size([160, 243, 256])
+        x = self.Transformer(x)  # torch.Size([160, 243, 256])
 
         x_VTE = x
         x_VTE = x_VTE.permute(0, 2, 1).contiguous()
         x_VTE = self.fcn_1(x_VTE) 
 
         x_VTE = x_VTE.view(x_shape[0], self.num_joints_out, -1, x_VTE.shape[2])
-        x_VTE = x_VTE.permute(0, 2, 3, 1).contiguous().unsqueeze(dim=-1)
+        x_VTE = x_VTE.permute(0, 2, 3, 1).contiguous().unsqueeze(dim=-1) # torch.Size([160, 3, 243, 17, 1]) 全帧
 
         x = self.Transformer_reduce(x) 
         x = x.permute(0, 2, 1).contiguous() 
         x = self.fcn(x) 
 
         x = x.view(x_shape[0], self.num_joints_out, -1, x.shape[2])
-        x = x.permute(0, 2, 3, 1).contiguous().unsqueeze(dim=-1)
+        x = x.permute(0, 2, 3, 1).contiguous().unsqueeze(dim=-1) # torch.Size([160, 3, 1, 17, 1]) 单帧
         
         return x, x_VTE
 

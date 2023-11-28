@@ -103,15 +103,15 @@ def step(split, opt, actions, dataLoader, model, optimizer=None, epoch=None):
             [input_2D, gt_3D, batch_cam, scale, bb_box] = get_varialbe(split,
                                                                        [input_2D, gt_3D, batch_cam, scale, bb_box])
 
-            N = input_2D.size(0)
+            N = input_2D.size(0) # torch.Size([160, 243, 17, 2]) 160
 
-            out_target = gt_3D.clone().view(N, -1, opt.out_joints, opt.out_channels)
-            out_target[:, :, 0] = 0
+            out_target = gt_3D.clone().view(N, -1, opt.out_joints, opt.out_channels) # torch.Size([160, 243, 17, 3])
+            out_target[:, :, 0] = 0 # 将out_target中的第一个关节点的坐标值设置为0
             gt_3D = gt_3D.view(N, -1, opt.out_joints, opt.out_channels).type(torch.cuda.FloatTensor)
 
             if out_target.size(1) > 1:
-                out_target_single = out_target[:, opt.pad].unsqueeze(1)
-                gt_3D_single = gt_3D[:, opt.pad].unsqueeze(1)
+                out_target_single = out_target[:, opt.pad].unsqueeze(1) # 单帧估计的 target
+                gt_3D_single = gt_3D[:, opt.pad].unsqueeze(1) # 单帧估计的 gt 值
             else:
                 out_target_single = out_target
                 gt_3D_single = gt_3D
@@ -119,7 +119,7 @@ def step(split, opt, actions, dataLoader, model, optimizer=None, epoch=None):
             if opt.test_augmentation and split =='test':
                 input_2D, output_3D, output_3D_VTE = input_augmentation(input_2D, model_trans, joints_left, joints_right)
             else:
-                input_2D = input_2D.view(N, -1, opt.n_joints, opt.in_channels, 1).permute(0, 3, 1, 2, 4).type(torch.cuda.FloatTensor)
+                input_2D = input_2D.view(N, -1, opt.n_joints, opt.in_channels, 1).permute(0, 3, 1, 2, 4).type(torch.cuda.FloatTensor) # B 2 F 17 1
                 output_3D, output_3D_VTE = model_trans(input_2D)
 
             output_3D_VTE = output_3D_VTE.permute(0, 2, 3, 4, 1).contiguous().view(N, -1, opt.out_joints, opt.out_channels)
