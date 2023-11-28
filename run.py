@@ -22,8 +22,8 @@ from thop.profile import profile
 
 opt = opts().parse()
 os.environ['PYOPENGL_PLATFORM'] = 'egl'
-#os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-os.environ["CUDA_VISIBLE_DEVICES"] = "1" 
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,2,3'
+# os.environ["CUDA_VISIBLE_DEVICES"] = "1" 
 
 def train(opt, actions, train_loader, model, optimizer, epoch):
     return step('train', opt, actions, train_loader, model, optimizer, epoch)

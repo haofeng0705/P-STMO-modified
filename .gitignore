@@ -1,1 +1,7 @@
 *.pyc
+*.pth
+*.json
+*.log
+*.txt
+.vscode/*
+!.vscode/launch.json
